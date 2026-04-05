@@ -36,13 +36,14 @@ function parseMonthlyPrice(str) {
 
 const crawler = new PlaywrightCrawler({
     proxyConfiguration,
-    maxRequestsPerCrawl: 1000,
-    maxConcurrency: 3, // Ograničava na max 3 tabova odjednom da ne bi pukla RAM memorija
+    maxRequestsPerCrawl: 999999, // Apsolutno nema limita za ukupan broj zahteva
+    maxConcurrency: 2, // Spušteno na 2 za ultra-stabilnost tokom maratonskog crawl-a
     browserPoolOptions: {
         retireBrowserAfterPageCount: 10, // Ristartuje browser svakih 10 uradjenih stranica, čisteći sav iscureli RAM
     },
     headless: true,
-    navigationTimeoutSecs: 60,
+    navigationTimeoutSecs: 120,
+    requestHandlerTimeoutSecs: 1800, // Dozvoljava 30 minuta skrolovanja po samo jednoj jedinoj strani (veoma bitno za infinite scroll)!
     
     preNavigationHooks: [
         async ({ page }) => {
