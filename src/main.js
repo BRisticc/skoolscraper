@@ -309,19 +309,49 @@ const crawler = new PlaywrightCrawler({
             
             if (monthlyPrice <= 0) {
                 log.info(`Skipping saving dataset for ${request.url} because monthlyPrice = 0`);
-                return; // Sigurna provera da nista ne kosta 0 na izlazu
+                return;
             }
             if (membersCount < 50) {
                 log.info(`Skipping saving dataset for ${request.url} because it has less than 50 members (${membersCount})`);
                 return;
             }
             
+            // LANGUAGE FILTER: Samo engleske zajednice prolaze (odbacujemo španske, italijanske, itd.)
+            const descText = (detail.description || '').toLowerCase();
+            const titleText = (detail.title || '').toLowerCase();
+            const textToCheck = descText + ' ' + titleText;
+            
+            // Česti španski/italijanski/portugalski/francuski/nemački markeri
+            const nonEnglishPatterns = [
+                // Španski
+                /\b(comunidad|aprende|negocio|dinero|gratis|bienvenid|curso|ayuda|mejor|mundo|trabaj|emprender|ganar|vender|grupo|español|como|para ti|únete|cómo)\b/,
+                // Italijanski  
+                /\b(benvenut|impara|comunità|gratuito|corso|mondo|lavoro|vendere|gruppo|italiano|gratis|guadagn)\b/,
+                // Portugalski
+                /\b(comunidade|aprenda|negócio|dinheiro|gratuito|mundo|trabalh|vender|grupo|português|como|ganhar)\b/,
+                // Francuski
+                /\b(communauté|apprendre|gratuit|cours|monde|travail|vendre|groupe|français|comment|gagner|bienvenue)\b/,
+                // Nemački
+                /\b(willkommen|lernen|kostenlos|kurs|geld|verdienen|gruppe|deutsch|gemeinschaft)\b/,
+            ];
+            
+            const isNonEnglish = nonEnglishPatterns.some(pattern => pattern.test(textToCheck));
+            
+            // Dodatna provera: specijalni karakteri (ñ, ç, ü, ö, ã, etc.)
+            const hasNonEnglishChars = /[ñçüöäãõàèìòùáéíóúâêîôû]{2,}/.test(textToCheck);
+            
+            if (isNonEnglish || hasNonEnglishChars) {
+                log.info(`Skipping ${request.url} - non-English community detected`);
+                return;
+            }
+            
             const finalDataset = {
                 communityName: detail.title || communityData.slug.replace(/\//g, ''),
-                communityLink: request.url.replace('/about', ''), // Main community link
+                communityLink: request.url.replace('/about', ''),
                 founderName: detail.founderName || 'Not Found',
                 membersCount: membersCount,
                 monthlyPrice: monthlyPrice,
+                currency: currency,
                 averageMRR: averageMRR,
                 courseNumbers: 'N/A - Hidden in Paid Communities',
                 communityInfo: detail.description.substring(0, 500) + '...',
