@@ -159,6 +159,12 @@ const crawler = new PlaywrightCrawler({
             // Enqueue paid communities
             let queuedCount = 0;
             for (const c of uniqueCommunities) {
+                const checkPrice = parseMonthlyPrice(c.priceRaw);
+                if (checkPrice <= 0) {
+                    log.info(`Skipping community ${c.slug} because its parsed price is 0`);
+                    continue;
+                }
+
                 if (queuedCount >= maxItems) {
                     log.info(`Reached maxItems limit of ${maxItems}.`);
                     break;
@@ -239,6 +245,11 @@ const crawler = new PlaywrightCrawler({
             const membersCount = parseMembersCount(communityData.membersRaw);
             const monthlyPrice = parseMonthlyPrice(communityData.priceRaw);
             const averageMRR = membersCount * monthlyPrice;
+            
+            if (monthlyPrice <= 0) {
+                log.info(`Skipping saving dataset for ${request.url} because monthlyPrice = 0`);
+                return; // Sigurna provera da nista ne kosta 0 na izlazu
+            }
             
             const finalDataset = {
                 communityName: detail.title || communityData.slug.replace(/\//g, ''),
