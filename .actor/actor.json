@@ -1,0 +1,12 @@
+{
+  "actorSpecification": 1,
+  "name": "skool-paid-communities-scraper",
+  "title": "Skool Paid Communities Scraper",
+  "description": "Scrapes paid communities from Skool.com discovery page.",
+  "version": "1.0.0",
+  "meta": {
+    "templateId": "playwright-js"
+  },
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile"
+}

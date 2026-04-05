@@ -1,0 +1,21 @@
+{
+  "name": "skool-paid-communities-scraper",
+  "version": "1.0.0",
+  "description": "Scrape paid communities from Skool.com",
+  "main": "src/main.js",
+  "type": "module",
+  "dependencies": {
+    "apify": "^3.1.10",
+    "crawlee": "^3.5.4",
+    "playwright": "*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "npm run start:dev",
+    "start:prod": "node src/main.js",
+    "start:dev": "node src/main.js",
+    "test": "echo \"Error: oops, the actor has no tests yet, sad!\" && exit 1"
+  },
+  "author": "Antigravity",
+  "license": "ISC"
+}
