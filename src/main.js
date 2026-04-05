@@ -7,6 +7,10 @@ const input = await Actor.getInput() || {};
 const maxItems = input.maxItems !== undefined ? input.maxItems : 99999;
 const maxScrolls = input.maxScrolls !== undefined ? input.maxScrolls : 999;
 
+// Ubacujemo bazu postojecih URL-ova koje filtriramo
+const existingUrls = input.existingUrls || [];
+const existingUrlsSet = new Set(existingUrls.map(u => u.toLowerCase()));
+
 const proxyConfiguration = await Actor.createProxyConfiguration();
 
 // Helper to parse "1.3k" -> 1300
@@ -163,11 +167,24 @@ const crawler = new PlaywrightCrawler({
                 }
             }
             
-            log.info(`Found ${uniqueCommunities.length} PAID communities. Queueing their about pages...`);
+            // NOVO: Filter out those already in our Google Sheet database
+            const newCommunities = uniqueCommunities.filter(c => {
+                const baselink = c.url.toLowerCase().replace('/about', '').split('?')[0];
+                for(let eu of existingUrls) {
+                    if (eu.toLowerCase().includes(baselink)) return false;
+                }
+                return true;
+            });
+            const skippedPreScrape = uniqueCommunities.length - newCommunities.length;
+            if (skippedPreScrape > 0) {
+                log.info(`Filtered out ${skippedPreScrape} communities that already exist in our database.`);
+            }
+            
+            log.info(`Queueing ${newCommunities.length} NEW VALID PAID communities...`);
             
             // Enqueue paid communities
             let queuedCount = 0;
-            for (const c of uniqueCommunities) {
+            for (const c of newCommunities) {
                 const checkPrice = parseMonthlyPrice(c.priceRaw);
                 if (checkPrice <= 0) {
                     log.info(`Skipping community ${c.slug} because its parsed price is 0`);
