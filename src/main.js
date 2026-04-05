@@ -164,6 +164,11 @@ const crawler = new PlaywrightCrawler({
                     log.info(`Skipping community ${c.slug} because its parsed price is 0`);
                     continue;
                 }
+                const checkMembers = parseMembersCount(c.membersRaw);
+                if (checkMembers < 50) {
+                    log.info(`Skipping community ${c.slug} because it has less than 50 members (${checkMembers})`);
+                    continue;
+                }
 
                 if (queuedCount >= maxItems) {
                     log.info(`Reached maxItems limit of ${maxItems}.`);
@@ -249,6 +254,10 @@ const crawler = new PlaywrightCrawler({
             if (monthlyPrice <= 0) {
                 log.info(`Skipping saving dataset for ${request.url} because monthlyPrice = 0`);
                 return; // Sigurna provera da nista ne kosta 0 na izlazu
+            }
+            if (membersCount < 50) {
+                log.info(`Skipping saving dataset for ${request.url} because it has less than 50 members (${membersCount})`);
+                return;
             }
             
             const finalDataset = {
