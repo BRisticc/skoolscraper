@@ -217,15 +217,45 @@ const crawler = new PlaywrightCrawler({
                 // External links to try and find websites and socials
                 for (const a of allLinks) {
                     const href = (a.getAttribute('href') || '').toLowerCase();
-                    if (!href.startsWith('http')) continue;
+                    if (!href.startsWith('http') && !href.startsWith('www.')) continue;
                     
                     if (href.includes('instagram.com')) socialLinks.instagram = href;
                     else if (href.includes('facebook.com')) socialLinks.facebook = href;
-                    else if (href.includes('youtube.com')) socialLinks.youtube = href;
+                    else if (href.includes('youtube.com') || href.includes('youtu.be')) socialLinks.youtube = href;
                     else if (href.includes('tiktok.com')) socialLinks.tiktok = href;
                     else if (href.includes('twitter.com') || href.includes('x.com')) socialLinks.twitter = href;
                     else if (href.includes('linkedin.com')) socialLinks.linkedin = href;
                     else if (!href.includes('skool.com')) socialLinks.website = href; // taking first non-skool link as website
+                }
+                
+                // Fallback: Use Regex to find unlinked text URLs in the description body
+                const regexes = {
+                    instagram: /instagram\.com\/[^\s\"\'\<\>\)]+/i,
+                    facebook: /facebook\.com\/[^\s\"\'\<\>\)]+/i,
+                    youtube: /(youtube\.com|youtu\.be)\/[^\s\"\'\<\>\)]+/i,
+                    tiktok: /tiktok\.com\/(@)?[^\s\"\'\<\>\)]+/i,
+                    twitter: /(twitter\.com|x\.com)\/[^\s\"\'\<\>\)]+/i,
+                    linkedin: /linkedin\.com\/in\/[^\s\"\'\<\>\)]+/i
+                };
+
+                for (const [key, regex] of Object.entries(regexes)) {
+                    if (!socialLinks[key]) {
+                        const match = bodyText.match(regex);
+                        if (match) {
+                            socialLinks[key] = match[0].startsWith('http') ? match[0] : 'https://www.' + match[0];
+                        }
+                    }
+                }
+                
+                // Final fallback for purely text website
+                if (!socialLinks.website) {
+                    const anyDomain = bodyText.match(/(https?:\/\/[^\s\"\'\<\>\)]+|www\.[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/i);
+                    if (anyDomain) {
+                        const d = anyDomain[0].toLowerCase();
+                        if (!d.includes('skool.com') && !d.includes('instagram.com') && !d.includes('facebook') && !d.includes('youtube') && !d.includes('tiktok') && !d.includes('twitter') && !d.includes('x.com')) {
+                            socialLinks.website = d.startsWith('http') ? d : 'https://' + d;
+                        }
+                    }
                 }
                 
                 // Founder info: Skool usually puts founder name in the alt attribute of an avatar image next to "By <name>"
