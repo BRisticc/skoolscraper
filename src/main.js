@@ -41,7 +41,7 @@ function parseMonthlyPrice(str) {
 const crawler = new PlaywrightCrawler({
     proxyConfiguration,
     maxRequestsPerCrawl: 999999, // Apsolutno nema limita za ukupan broj zahteva
-    maxConcurrency: 2, // Spušteno na 2 za ultra-stabilnost tokom maratonskog crawl-a
+    maxConcurrency: 10, // 10 paralelnih browsera za brz throughput
     browserPoolOptions: {
         retireBrowserAfterPageCount: 10, // Ristartuje browser svakih 10 uradjenih stranica, čisteći sav iscureli RAM
     },
@@ -203,6 +203,8 @@ const crawler = new PlaywrightCrawler({
                 
                 await crawler.addRequests([{
                     url: c.url,
+                    uniqueKey: c.url, // Prevent re-queuing same community
+                    priority: 10,     // HIGH PRIORITY: process communities before next discovery page!
                     userData: {
                         label: 'COMMUNITY_ABOUT',
                         communityData: c
@@ -376,8 +378,17 @@ const crawler = new PlaywrightCrawler({
 
 import { generateStartUrls } from './niches.js';
 
-const startUrls = generateStartUrls();
-console.log(`Loaded ${startUrls.length} niche search URLs for deep discovery.`);
+const rawUrls = generateStartUrls();
+console.log(`Loaded ${rawUrls.length} niche search URLs for deep discovery.`);
+
+// Give discovery pages LOW priority (0) so that when communities
+// are found and queued with priority:10, they get processed immediately
+// instead of waiting for all 3135 discovery pages to finish first.
+const startUrls = rawUrls.map(url => ({
+    url,
+    priority: 0,
+    userData: { label: 'DISCOVERY' }
+}));
 
 await crawler.run(startUrls);
 await Actor.exit();
