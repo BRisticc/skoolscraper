@@ -4,8 +4,8 @@ import { PlaywrightCrawler } from 'crawlee';
 await Actor.init();
 
 const input = await Actor.getInput() || {};
-const maxItems = input.maxItems || 100;
-const maxScrolls = input.maxScrolls || 20;
+const maxItems = input.maxItems !== undefined ? input.maxItems : 99999;
+const maxScrolls = input.maxScrolls !== undefined ? input.maxScrolls : 999;
 
 const proxyConfiguration = await Actor.createProxyConfiguration();
 

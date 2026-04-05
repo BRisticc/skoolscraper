@@ -7,13 +7,13 @@
       "title": "Max Communities",
       "type": "integer",
       "description": "Maximum number of paid communities to scrape. Leave empty for no limit.",
-      "default": 100
+      "default": 99999
     },
     "maxScrolls": {
       "title": "Max Scrolls",
       "type": "integer",
       "description": "Maximum number of times to scroll down the discovery page to load more communities.",
-      "default": 20
+      "default": 999
     }
   },
   "required": []
