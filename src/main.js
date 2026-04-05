@@ -327,14 +327,49 @@ const crawler = new PlaywrightCrawler({
 });
 
 const startUrls = [
-    'https://www.skool.com/discovery',
+    'https://www.skool.com/discovery', // Glavni feed
+    
+    // Zvanicne Native Kategorije
     'https://www.skool.com/discovery?c=business',
     'https://www.skool.com/discovery?c=health-&-fitness',
     'https://www.skool.com/discovery?c=personal-development',
     'https://www.skool.com/discovery?c=arts-&-crafts',
-    'https://www.skool.com/discovery?c=finance',
-    'https://www.skool.com/discovery?c=music',
-    'https://www.skool.com/discovery?c=tech'
+    
+    // Deep Search Niches (kucanje u search bar pretragu)
+    'https://www.skool.com/discovery?q=photography',
+    'https://www.skool.com/discovery?q=videography',
+    'https://www.skool.com/discovery?q=marketing',
+    'https://www.skool.com/discovery?q=sales',
+    'https://www.skool.com/discovery?q=agency',
+    'https://www.skool.com/discovery?q=ecommerce',
+    'https://www.skool.com/discovery?q=dropshipping',
+    'https://www.skool.com/discovery?q=crypto',
+    'https://www.skool.com/discovery?q=trading',
+    'https://www.skool.com/discovery?q=investing',
+    'https://www.skool.com/discovery?q=real+estate',
+    'https://www.skool.com/discovery?q=coaching',
+    'https://www.skool.com/discovery?q=consulting',
+    'https://www.skool.com/discovery?q=mindset',
+    'https://www.skool.com/discovery?q=productivity',
+    'https://www.skool.com/discovery?q=spirituality',
+    'https://www.skool.com/discovery?q=relationships',
+    'https://www.skool.com/discovery?q=dating',
+    'https://www.skool.com/discovery?q=design',
+    'https://www.skool.com/discovery?q=art',
+    'https://www.skool.com/discovery?q=music',
+    'https://www.skool.com/discovery?q=programming',
+    'https://www.skool.com/discovery?q=software',
+    'https://www.skool.com/discovery?q=saas',
+    'https://www.skool.com/discovery?q=ai',
+    'https://www.skool.com/discovery?q=language',
+    'https://www.skool.com/discovery?q=parenting',
+    'https://www.skool.com/discovery?q=fitness',
+    'https://www.skool.com/discovery?q=weight+loss',
+    'https://www.skool.com/discovery?q=diet',
+    'https://www.skool.com/discovery?q=youtube',
+    'https://www.skool.com/discovery?q=tiktok',
+    'https://www.skool.com/discovery?q=copywriting',
+    'https://www.skool.com/discovery?q=freelance'
 ];
 
 await crawler.run(startUrls);
