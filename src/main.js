@@ -40,20 +40,35 @@ const crawler = new PlaywrightCrawler({
     headless: true,
     navigationTimeoutSecs: 60,
     
+    preNavigationHooks: [
+        async ({ page }) => {
+            // Block images, fonts, and CSS to drastically reduce CPU usage and speed up page load
+            await page.route('**/*', route => {
+                const req = route.request();
+                if (['image', 'stylesheet', 'font', 'media'].includes(req.resourceType())) {
+                    route.abort().catch(() => {});
+                } else {
+                    route.continue().catch(() => {});
+                }
+            });
+        }
+    ],
+
     async requestHandler({ page, request, log, enqueueLinks }) {
         // --- 1. Handle Discovery Page ---
         if (request.url.includes('/discovery')) {
             log.info(`Processing discovery page: ${request.url}`);
             
             // Wait for initial load
-            await page.waitForTimeout(3000);
+            await page.waitForLoadState('domcontentloaded');
+            await page.waitForTimeout(500);
             
             // Scroll down to load more communities
             let previousHeight = 0;
             for (let i = 0; i < maxScrolls; i++) {
                 log.info(`Scrolling down... (${i+1}/${maxScrolls})`);
                 await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-                await page.waitForTimeout(2000); // give it time to load
+                await page.waitForTimeout(800); // drastically reduced from 2000 to speed up scrolling
                 
                 const currentHeight = await page.evaluate(() => document.body.scrollHeight);
                 if (currentHeight === previousHeight) {
@@ -161,8 +176,9 @@ const crawler = new PlaywrightCrawler({
             
             const { communityData } = request.userData;
             
-            // Wait for community page to load fully
-            await page.waitForTimeout(3000);
+            // Wait for community page React to hydrate fully (0.5s instead of 3s)
+            await page.waitForLoadState('domcontentloaded');
+            await page.waitForTimeout(500);
             
             const detail = await page.evaluate(() => {
                 const title = document.title || '';
