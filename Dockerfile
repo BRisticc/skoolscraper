@@ -1,7 +1,7 @@
 # First, specify the base Docker image.
 # You can see the Docker images from Apify at https://hub.docker.com/r/apify/.
 # You can also use any other image from Docker Hub.
-FROM apify/actor-node-playwright-chrome:18
+FROM apify/actor-node-playwright-chrome:20
 
 # Copy just package.json and package-lock.json
 # to speed up the build using Docker layer cache.
