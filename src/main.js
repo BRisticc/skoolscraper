@@ -69,17 +69,40 @@ const crawler = new PlaywrightCrawler({
             
             // Scroll down to load more communities
             let previousHeight = 0;
+            let noChangeCount = 0;
             for (let i = 0; i < maxScrolls; i++) {
                 log.info(`Scrolling down... (${i+1}/${maxScrolls})`);
-                await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-                await page.waitForTimeout(800); // drastically reduced from 2000 to speed up scrolling
+                await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+                await page.waitForTimeout(1500); // sačeka 1.5s novo učitavanje
                 
-                const currentHeight = await page.evaluate(() => document.body.scrollHeight);
+                const currentHeight = await page.evaluate(() => document.documentElement.scrollHeight);
                 if (currentHeight === previousHeight) {
-                    log.info('Reached the bottom of the discovery page.');
-                    break;
+                    noChangeCount++;
+                    if (noChangeCount >= 2) { // mora 2 puta zaredom da omane da bismo prekinuli
+                        log.info('Reached the bottom of the discovery page.');
+                        break;
+                    }
+                    log.info('Scroll height unchanged, giving it extra time...');
+                    await page.waitForTimeout(1500); // bonus čekanje
+                } else {
+                    noChangeCount = 0;
                 }
                 previousHeight = currentHeight;
+            }
+            
+            // NOVO: Routing do drugih kategorija kako bi našao više (ako smo na početnoj discovery stranici)
+            if (request.url === 'https://www.skool.com/discovery') {
+                const categoryLinks = await page.evaluate(() => {
+                    const links = Array.from(document.querySelectorAll('a[href]'));
+                    const cats = links.map(a => a.getAttribute('href')).filter(h => h && h.includes('?c='));
+                    return [...new Set(cats)];
+                });
+                
+                log.info(`Found ${categoryLinks.length} new categories for deep research. Queueing them...`);
+                for (const cat of categoryLinks) {
+                    let fullUrl = cat.startsWith('http') ? cat : 'https://www.skool.com' + cat;
+                    await crawler.addRequests([fullUrl]);
+                }
             }
             
             // Extract all community cards
