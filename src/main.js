@@ -90,21 +90,6 @@ const crawler = new PlaywrightCrawler({
                 previousHeight = currentHeight;
             }
             
-            // NOVO: Routing do drugih kategorija kako bi našao više (ako smo na početnoj discovery stranici)
-            if (request.url === 'https://www.skool.com/discovery') {
-                const categoryLinks = await page.evaluate(() => {
-                    const links = Array.from(document.querySelectorAll('a[href]'));
-                    const cats = links.map(a => a.getAttribute('href')).filter(h => h && h.includes('?c='));
-                    return [...new Set(cats)];
-                });
-                
-                log.info(`Found ${categoryLinks.length} new categories for deep research. Queueing them...`);
-                for (const cat of categoryLinks) {
-                    let fullUrl = cat.startsWith('http') ? cat : 'https://www.skool.com' + cat;
-                    await crawler.addRequests([fullUrl]);
-                }
-            }
-            
             // Extract all community cards
             const communities = await page.evaluate(() => {
                 const results = [];
@@ -341,5 +326,16 @@ const crawler = new PlaywrightCrawler({
     },
 });
 
-await crawler.run(['https://www.skool.com/discovery']);
+const startUrls = [
+    'https://www.skool.com/discovery',
+    'https://www.skool.com/discovery?c=business',
+    'https://www.skool.com/discovery?c=health-&-fitness',
+    'https://www.skool.com/discovery?c=personal-development',
+    'https://www.skool.com/discovery?c=arts-&-crafts',
+    'https://www.skool.com/discovery?c=finance',
+    'https://www.skool.com/discovery?c=music',
+    'https://www.skool.com/discovery?c=tech'
+];
+
+await crawler.run(startUrls);
 await Actor.exit();
