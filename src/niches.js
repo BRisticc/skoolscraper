@@ -1,4 +1,4 @@
-ok/**
+/**
  * NICHE KEYWORD DATABASE — Community & Lifestyle Focused
  * Real topics people build communities around.
  * Platforms and software tools are intentionally excluded.
