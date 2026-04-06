@@ -58,7 +58,7 @@ async function scrapeCommunityAbout(context, communityData, log) {
     const monthlyPrice = parseMonthlyPrice(communityData.priceRaw);
 
     if (monthlyPrice <= 0) { log.info(`[SKIP-FREE] ${slug} is free`); return; }
-    if (membersCount < 50) { log.info(`[SKIP-SIZE] ${slug} has ${membersCount} members`); return; }
+    if (membersCount < 10) { log.info(`[SKIP-SIZE] ${slug} has ${membersCount} members`); return; }
 
     processedInThisRun.add(normalizedUrl);
 
@@ -231,30 +231,45 @@ const crawler = new PlaywrightCrawler({
         }
 
         // Extract community cards from discovery page
+        // Multi-strategy extraction to catch all card formats
         const communities = await page.evaluate(() => {
             const results = [];
-            const cards = Array.from(document.querySelectorAll('a[href]'));
-            for (const a of cards) {
-                const href = a.getAttribute('href') || '';
-                let cleanHref = href.split('?')[0].replace(/\/about$/, '');
-                if (!cleanHref.startsWith('/') || cleanHref.split('/').length !== 2) continue;
-                if (['/discovery', '/explore', '/login', '/home'].some(p => cleanHref.startsWith(p))) continue;
-
-                const cardText = a.closest('[class]')?.textContent || a.textContent || '';
-                const priceMatch = cardText.match(/\$([0-9,.]+)\s*\/\s*month/i);
-                const membersMatch = cardText.match(/([\d,.]+[km]?)\s*members?/i);
-                if (!priceMatch) continue;
-
-                results.push({
-                    slug: cleanHref,
-                    url: 'https://www.skool.com' + cleanHref + '/about',
-                    priceRaw: '$' + priceMatch[1] + '/month',
-                    membersRaw: membersMatch ? membersMatch[1] + ' members' : '0 members'
-                });
-            }
-            // Deduplicate by slug
             const seen = new Set();
-            return results.filter(r => { if (seen.has(r.slug)) return false; seen.add(r.slug); return true; });
+
+            // Strategy 1: find all <a> links pointing to community slugs
+            const allLinks = Array.from(document.querySelectorAll('a[href]'));
+            for (const a of allLinks) {
+                const href = a.getAttribute('href') || '';
+                let cleanHref = href.split('?')[0].replace(/\/about$/, '').replace(/\/$/, '');
+                // Must be /something (single level slug)
+                if (!cleanHref.match(/^\/[a-z0-9][a-z0-9-]{1,60}$/i)) continue;
+                // Skip non-community pages
+                if (/^\/(discovery|explore|login|home|settings|profile|feed|messages|notifications|search)/.test(cleanHref)) continue;
+                if (seen.has(cleanHref)) continue;
+
+                // Walk up the DOM to find the card container
+                let container = a;
+                for (let i = 0; i < 8; i++) {
+                    container = container.parentElement;
+                    if (!container) break;
+                    const t = container.textContent || '';
+                    // Look for price pattern
+                    const priceMatch = t.match(/\$([0-9,.]+)\s*\/\s*month/i);
+                    if (priceMatch) {
+                        const membersMatch = t.match(/([\d,.]+\s*[km]?)\s*members?/i);
+                        results.push({
+                            slug: cleanHref,
+                            url: 'https://www.skool.com' + cleanHref + '/about',
+                            priceRaw: '$' + priceMatch[1] + '/month',
+                            membersRaw: membersMatch ? membersMatch[0].trim() : '0 members'
+                        });
+                        seen.add(cleanHref);
+                        break;
+                    }
+                }
+            }
+
+            return results;
         });
 
         log.info(`Found ${communities.length} paid community cards on this page.`);

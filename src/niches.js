@@ -876,34 +876,57 @@ const NICHE_KEYWORDS = [
 
 /**
  * Generates URL array for Skool Discovery search.
+ * Combines: category browses (all sort orders) + keyword searches
  */
 export function generateStartUrls() {
-    // Start with general discovery pages by category
-    const urls = [
-        'https://www.skool.com/discovery',
-        'https://www.skool.com/discovery?c=health-&-fitness',
-        'https://www.skool.com/discovery?c=personal-development',
-        'https://www.skool.com/discovery?c=business',
-        'https://www.skool.com/discovery?c=arts-&-crafts',
-        'https://www.skool.com/discovery?c=sports',
-        'https://www.skool.com/discovery?c=relationships',
-        'https://www.skool.com/discovery?c=spirituality',
-        'https://www.skool.com/discovery?c=education',
-        'https://www.skool.com/discovery?c=finance',
-        'https://www.skool.com/discovery?c=food-&-drink',
-        'https://www.skool.com/discovery?c=travel',
-        'https://www.skool.com/discovery?c=pets',
-        'https://www.skool.com/discovery?c=hobbies',
-    ];
+    const seen = new Set();
+    const urls = [];
 
-    const seen = new Set(urls);
+    const addUrl = (url) => {
+        if (!seen.has(url)) { urls.push(url); seen.add(url); }
+    };
+
+    // ── 1. BROAD DISCOVERY — no filter, hit every sort order ──────────
+    // Each sort exposes different communities on the infinite scroll
+    const sortOrders = ['', '?s=m', '?s=p', '?s=l', '?s=n'];
+    // s=m = most members, s=p = most popular, s=l = lowest price, s=n = newest
+    for (const sort of sortOrders) {
+        addUrl(`https://www.skool.com/discovery${sort}`);
+    }
+
+    // ── 2. ALL SKOOL CATEGORIES × ALL SORT ORDERS ─────────────────────
+    const categories = [
+        'health-&-fitness',
+        'personal-development',
+        'business',
+        'arts-&-crafts',
+        'sports',
+        'relationships',
+        'spirituality',
+        'education',
+        'finance',
+        'food-&-drink',
+        'travel',
+        'pets',
+        'hobbies',
+        'music',
+        'gaming',
+        'technology',
+        'other',
+    ];
+    for (const cat of categories) {
+        for (const sort of sortOrders) {
+            const sep = sort ? sort + '&' : '?';
+            addUrl(`https://www.skool.com/discovery?c=${cat}${sort ? sort.replace('?', '&') : ''}`);
+        }
+        // Also do category-only (default sort)
+        addUrl(`https://www.skool.com/discovery?c=${cat}`);
+    }
+
+    // ── 3. KEYWORD SEARCHES ───────────────────────────────────────────
     for (const keyword of NICHE_KEYWORDS) {
         const encoded = encodeURIComponent(keyword).replace(/%20/g, '+');
-        const url = `https://www.skool.com/discovery?q=${encoded}`;
-        if (!seen.has(url)) {
-            urls.push(url);
-            seen.add(url);
-        }
+        addUrl(`https://www.skool.com/discovery?q=${encoded}`);
     }
 
     return urls;
