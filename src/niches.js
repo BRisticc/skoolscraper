@@ -1,4 +1,4 @@
-/**
+ok/**
  * NICHE KEYWORD DATABASE — Community & Lifestyle Focused
  * Real topics people build communities around.
  * Platforms and software tools are intentionally excluded.
@@ -872,6 +872,280 @@ const NICHE_KEYWORDS = [
     "comedian community", "comic performer",
     "speaker community", "public speaker community",
     "author community", "book writing community",
+
+    // ===== AUTOMOTIVE & CAR CULTURE =====
+    "classic car restoration", "muscle car community", "hot rod building", "rat rod community",
+    "barn find restoration", "car flipping", "JDM community", "stance car", "lowrider culture",
+    "car show community", "concours judging", "car detailing hobby", "ceramic coating car",
+    "overlanding community", "jeep community", "4x4 community",
+    "lifted trucks", "diesel truck community", "truck community", "overland build",
+    "land rover community", "bronco community", "offroad truck community",
+    "autocross community", "track day community", "HPDE community", "time attack racing",
+    "club racing", "vintage racing", "road rally", "cafe racer community",
+    "bobber motorcycle build", "scrambler motorcycle community",
+    "chopper build", "vintage motorcycle restoration",
+
+    // ===== BEAUTY, SKINCARE & HAIR =====
+    "skincare routine community", "glass skin", "korean skincare", "skincycling",
+    "tretinoin community", "retinol routine", "acne community", "rosacea community",
+    "hyperpigmentation", "skincare formulation", "DIY skincare",
+    "clean beauty", "green beauty community", "indie beauty brand",
+    "fragrance community", "perfume collecting", "niche fragrance", "oud community",
+    "makeup artistry community", "sfx makeup", "editorial makeup", "bridal makeup artist",
+    "curly hair community", "curly girl method", "natural hair community",
+    "loc community", "protective styles", "hair loss community", "alopecia community",
+    "nail art community", "nail tech community", "gel nails community",
+    "acrylic nails community", "press on nails",
+
+    // ===== FASHION & STREETWEAR =====
+    "streetwear community", "sneaker community", "sneaker collecting",
+    "hypebeast community", "jordan community", "limited edition sneakers",
+    "luxury fashion community", "designer bag collecting", "luxury handbag community",
+    "fashion reselling", "sneaker reselling", "vintage clothing dealer",
+    "plus size fashion community", "modest fashion", "hijab fashion",
+    "abaya community", "OOTD community", "personal style community",
+    "tailoring community", "bespoke clothing", "menswear community",
+    "womenswear community", "fashion illustration community",
+
+    // ===== HOME RENOVATION & DIY =====
+    "home improvement community", "home renovation community", "bathroom remodel DIY",
+    "kitchen remodel DIY", "flooring installation DIY", "tile work DIY",
+    "drywall repair", "deck building DIY", "fence building", "shed building",
+    "garage conversion", "basement finishing", "ADU building",
+    "van conversion community", "skoolie conversion", "container home building",
+    "cob house building", "natural building community", "straw bale house",
+    "earthship community", "solar DIY installation", "rainwater harvesting",
+    "greywater system", "composting toilet community", "DIY plumbing",
+    "IKEA hacking community", "furniture flipping", "furniture painting community",
+    "chalk paint community", "flea market flipping", "estate sale picking",
+    "vintage furniture reselling", "antique dealer community",
+
+    // ===== ANIME, MANGA & FAN CULTURE =====
+    "anime community", "manga readers", "webtoon community", "manhwa community",
+    "light novel community", "visual novel community", "anime figurine collecting",
+    "otaku community", "anime convention community", "fanfiction community",
+    "fan art community", "doujinshi community", "vtuber community",
+    "retro anime", "shonen fans", "shojo community",
+    "isekai community", "slice of life anime fans",
+
+    // ===== SOCIAL & PARTNER DANCE =====
+    "tango community", "argentinian tango", "west coast swing community",
+    "lindy hop community", "blues dancing", "fusion dancing community",
+    "bachata community", "kizomba community", "zouk community",
+    "cumbia dancing", "merengue community", "flamenco dance community",
+    "irish step dancing community", "belly dancing community",
+    "contact improvisation", "social dance community",
+    "swing dancing community", "partner dance community",
+
+    // ===== EVENT, WEDDING & PARTY PLANNING =====
+    "wedding planning community", "DIY wedding", "elopement planning",
+    "destination wedding community", "micro wedding", "wedding styling community",
+    "budget wedding", "event design community", "party planning community",
+    "birthday party planning", "baby shower planning",
+    "bridal shower planning", "bachelorette planning",
+    "holiday decorating community", "christmas decorating community",
+    "halloween decorating community", "themed party community",
+
+    // ===== LIFESTYLE AESTHETICS =====
+    "cottagecore community", "dark academia community",
+    "goblincore", "fairycore community", "hygge lifestyle",
+    "lagom lifestyle", "wabi sabi living", "japandi aesthetic",
+    "maximalist decor community", "grandmillennial style",
+    "old money aesthetic", "quiet luxury community",
+    "coastal grandmother aesthetic", "regencycore",
+    "slow living community", "intentional living community",
+    "cozy community", "comfort living aesthetic",
+
+    // ===== COACHING — NEW ANGLES =====
+    "somatic coaching", "embodiment coaching", "trauma informed coaching",
+    "ADHD coaching", "neurodivergent coaching", "autism life coaching",
+    "money mindset coaching", "abundance coaching", "wealth mindset coaching",
+    "speaking coach community", "presentation coaching", "interview coaching",
+    "academic coaching", "college admissions coaching", "study skills coaching",
+    "performance coaching", "creativity coaching", "artist coaching",
+    "spiritual coaching", "soul coaching", "purpose coaching",
+    "organizational coaching", "team coaching", "culture coaching",
+    "productivity coaching", "procrastination coaching",
+
+    // ===== PARANORMAL & MYSTERY =====
+    "paranormal investigation", "ghost hunting community",
+    "spirit communication", "evp recording community", "haunted locations",
+    "cryptozoology community", "bigfoot research", "ufo community", "uap community",
+    "ancient mysteries community", "alternative archaeology", "lost civilizations",
+    "mystery history community", "fringe science community",
+    "alien contactee community", "conspiracy research community",
+
+    // ===== SIM RACING & VIRTUAL HOBBIES =====
+    "sim racing community", "iracing community", "assetto corsa community",
+    "gran turismo community", "formula sim racing", "oval sim racing",
+    "dirt rally sim community", "flight simulator community", "msfs community",
+    "x-plane community", "dcs world community", "home cockpit building",
+    "racing wheel setup community", "sim rig building", "vr sim racing",
+
+    // ===== FAITH COMMUNITIES =====
+    "jewish community", "shabbat community", "torah study community",
+    "jewish holidays community", "orthodox jewish community", "bar mitzvah planning",
+    "islamic community", "muslim community", "quran study community",
+    "ramadan community", "halal lifestyle community", "umrah planning community",
+    "islamic parenting", "modesty community",
+    "hindu community", "bhagavad gita study", "mandir community", "puja community",
+    "buddhist community", "zen community", "tibetan buddhism community",
+    "theravada community", "sangha community",
+    "sikh community", "gurdwara community",
+
+    // ===== FINANCIAL INDEPENDENCE (FIRE) =====
+    "FIRE community", "financial independence retire early",
+    "lean FIRE", "fat FIRE", "coast FIRE", "barista FIRE",
+    "frugality community", "extreme saving community",
+    "early retirement community", "4 percent rule community",
+    "financial independence journey", "fi community",
+
+    // ===== RACQUET & COURT SPORTS =====
+    "padel community", "padel player community", "squash community",
+    "racquetball community", "badminton community",
+    "table tennis community", "ping pong community",
+    "platform tennis community", "padel coaching community",
+
+    // ===== ACTION SPORTS & COMBAT GAMES =====
+    "airsoft community", "airsoft milsim", "airsoft loadout community",
+    "paintball community", "speedball paintball",
+    "competitive archery community", "3d archery", "field archery community",
+    "shooting range community", "competitive shooting community",
+    "precision rifle community", "long range shooting community",
+
+    // ===== TTRPG EXPANDED =====
+    "pathfinder community", "call of cthulhu rpg community",
+    "vampire the masquerade community", "starfinder community",
+    "shadowrun community", "osr community",
+    "solo rpg community", "pbta community",
+    "ttrpg actual play", "critical role community",
+
+    // ===== RC & MODEL HOBBIES EXPANDED =====
+    "rc aircraft community", "rc plane community",
+    "rc boat community", "rc crawler community",
+    "scale rc community", "rc glider community", "rc sailplane",
+
+    // ===== 3D PRINTING & MAKING =====
+    "3d printing community", "fdm printing hobby",
+    "resin printing community", "3d printing design hobby",
+    "maker community", "makerspace community",
+
+    // ===== MODEL RAILROADING =====
+    "model railroad community", "model train layout", "HO scale trains",
+    "N scale trains", "O scale trains", "G scale trains",
+    "DCC model trains", "model railroad scenery", "layout building",
+    "train collector", "vintage train collecting", "model railroad club",
+
+    // ===== LARP & HISTORICAL REENACTMENT =====
+    "larp community", "live action roleplay", "medieval reenactment",
+    "SCA community", "society creative anachronism", "renaissance faire community",
+    "living history community", "civil war reenactment", "viking reenactment",
+    "roman reenactment", "historical battle reenactment",
+    "medieval combat", "armored combat", "buhurt community", "HMB community",
+
+    // ===== SURVIVALISM & PREPPING =====
+    "prepper community", "survivalist community", "emergency preparedness",
+    "bug out bag community", "food storage community", "off grid preparedness",
+    "self reliance community", "homestead defense", "disaster preparedness",
+    "urban survival community", "primitive skills community",
+
+    // ===== FLOW ARTS & CIRCUS SKILLS =====
+    "fire spinning community", "poi spinning", "staff spinning",
+    "flow arts community", "juggling community", "circus skills community",
+    "hoop dance community", "fire performance community",
+    "diabolo community", "contact juggling", "stilt walking community",
+
+    // ===== SUBCULTURES & SCENE COMMUNITIES =====
+    "goth community", "steampunk community", "cyberpunk aesthetic community",
+    "punk community", "rave culture community", "festival culture community",
+    "burning man community", "music festival community",
+    "lolita fashion community", "harajuku fashion", "j-fashion community",
+    "alternative fashion community", "dark fashion community",
+
+    // ===== RARE PLANTS & BOTANICAL COLLECTING =====
+    "rare plant community", "plant collecting hobby", "monstera community",
+    "aroid community", "tropical plant community", "rare houseplant community",
+    "succulent collecting", "cactus collecting", "cacti community",
+    "dahlia society", "rose society", "iris society",
+    "carnivorous plant community", "competitive flower show", "garden show community",
+
+    // ===== COMPETITIVE BAKING & COOKING =====
+    "baking competition community", "bread competition", "cake competition",
+    "pastry competition", "competitive baking community", "home baker community",
+    "sourdough art community", "decorative bread scoring", "bread art community",
+    "wild game cooking community",
+
+    // ===== DRONE PHOTOGRAPHY (HOBBY) =====
+    "drone photography hobby", "aerial photography hobby",
+    "fpv freestyle community", "fpv drone community",
+    "cinematic drone community", "long range drone", "fixed wing fpv",
+
+    // ===== FALCONRY & TRADITIONAL HUNTING ARTS =====
+    "falconry community", "hawk training community", "raptor rehabilitation",
+    "traditional archery community", "longbow community", "recurve archery community",
+    "instinctive archery", "primitive archery", "atlatl community",
+
+    // ===== GYMNASTICS & ACROBATICS =====
+    "gymnastics community", "artistic gymnastics community", "rhythmic gymnastics",
+    "trampoline community", "tumbling community",
+    "cheerleading community", "cheer athletics", "adult gymnastics",
+
+    // ===== TEAM SPORTS NOT YET COVERED =====
+    "rugby community", "rugby union", "rugby league", "touch rugby",
+    "cricket community", "amateur cricket", "cricket coaching",
+    "lacrosse community", "field hockey community", "handball community",
+    "beach volleyball community", "ultimate frisbee community",
+
+    // ===== ART DOLLS & COLLECTIBLE FIGURES =====
+    "art doll community", "OOAK doll community", "polymer clay doll",
+    "reborn doll community", "bjd community", "ball jointed doll",
+    "doll customizing", "vintage doll collecting", "barbie collecting",
+    "action figure customizing", "custom toy art community",
+
+    // ===== FOSSIL & MINERAL COLLECTING =====
+    "fossil collecting community", "fossil hunting community", "paleontology hobby",
+    "mineral collecting community", "gemstone collecting",
+    "lapidary community", "gem cutting hobby",
+    "meteorite collecting community", "rockhounding community",
+
+    // ===== NATURE JOURNALING & OBSERVATION =====
+    "nature journaling community", "urban sketching community",
+    "field sketching", "botanical illustration community",
+    "citizen science community", "amateur naturalist",
+    "wildlife tracking community", "amateur meteorology",
+    "weather station community", "storm chasing community",
+
+    // ===== WELLNESS NICHES NOT YET COVERED =====
+    "gua sha community", "lymphatic drainage community",
+    "facial massage community", "reflexology community",
+    "floatation therapy community", "sensory deprivation tank community",
+    "forest bathing community", "shinrin yoku",
+    "oil pulling community", "dry brushing community",
+
+    // ===== SENIOR & LEISURE SPORTS =====
+    "lawn bowls community", "bocce community", "bocce ball league",
+    "croquet community", "horseshoe community", "cornhole community",
+    "shuffleboard community", "darts community", "darts league",
+    "snooker community",
+
+    // ===== AFOL & LEGO BUILDING =====
+    "AFOL community", "adult lego fans", "lego MOC building",
+    "lego technic community", "lego city builders", "lego art community",
+    "lego collecting community", "lego minifigure collecting",
+
+    // ===== TRADITIONAL CRAFTS EXPANDED =====
+    "hand tool woodworking", "green woodworking community",
+    "spoon carving community", "walking stick carving",
+    "whittling community", "wood burning community", "pyrography community",
+    "folk art community", "outsider art community",
+    "primitive craft community",
+
+    // ===== CONTEMPORARY DANCE =====
+    "contemporary dance community", "modern dance community",
+    "jazz dance community", "tap dance community",
+    "musical theater dance community", "street dance community",
+    "waacking community", "vogueing community",
+    "breaking community", "bboy community",
 ];
 
 /**
