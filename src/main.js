@@ -48,17 +48,15 @@ async function scrapeCommunityAbout(context, communityData, log) {
         log.info(`[SKIP-DUPLICATE] Already processed in this run: ${slug}`);
         return;
     }
-    // Skip if already in our Google Sheet
-    if (existingUrlsSet.has(normalizedUrl)) {
-        log.info(`[SKIP-DB] Already in database: ${slug}`);
-        return;
-    }
+    // Skip if already in our Google Sheet (silent)
+    if (existingUrlsSet.has(normalizedUrl)) return;
 
     const membersCount = parseMembersCount(communityData.membersRaw);
     const monthlyPrice = parseMonthlyPrice(communityData.priceRaw);
+    const estimatedMRR = membersCount * monthlyPrice;
 
     if (monthlyPrice <= 0) { log.info(`[SKIP-FREE] ${slug} is free`); return; }
-    if (membersCount < 10) { log.info(`[SKIP-SIZE] ${slug} has ${membersCount} members`); return; }
+    if (estimatedMRR < 10000) { log.info(`[SKIP-MRR] ${slug} MRR ~$${estimatedMRR} (${membersCount} members × $${monthlyPrice})`); return; }
 
     processedInThisRun.add(normalizedUrl);
 
