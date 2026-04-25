@@ -1,19 +1,56 @@
 {
-  "title": "Skool Paid Communities Scraper Input",
+  "title": "Skool Communities Scraper Input",
   "type": "object",
   "schemaVersion": 1,
   "properties": {
-    "maxItems": {
-      "title": "Max Communities",
+    "includeFree": {
+      "title": "Include Free Communities",
+      "type": "boolean",
+      "description": "When enabled, free ($0/month) communities are scraped alongside paid ones.",
+      "default": false
+    },
+    "paidOnly": {
+      "title": "Paid Communities Only",
+      "type": "boolean",
+      "description": "When enabled, free communities are always skipped even if Include Free is on.",
+      "default": false
+    },
+    "minMRR": {
+      "title": "Minimum Estimated MRR ($)",
       "type": "integer",
-      "description": "Maximum number of paid communities to scrape. Leave empty for no limit.",
+      "description": "Skip paid communities whose estimated MRR (members × price) is below this value. Ignored for free communities.",
+      "default": 10000
+    },
+    "minMembers": {
+      "title": "Minimum Members",
+      "type": "integer",
+      "description": "Skip communities with fewer members than this. Set to 0 to disable.",
+      "default": 0
+    },
+    "maxMembers": {
+      "title": "Maximum Members",
+      "type": "integer",
+      "description": "Skip communities with more members than this. Leave empty for no limit.",
+      "default": null
+    },
+    "maxItems": {
+      "title": "Max Communities to Save",
+      "type": "integer",
+      "description": "Stop after saving this many communities.",
       "default": 99999
     },
     "maxScrolls": {
-      "title": "Max Scrolls",
+      "title": "Max Scrolls per Page",
       "type": "integer",
-      "description": "Maximum number of times to scroll down the discovery page to load more communities.",
+      "description": "How many times to scroll down each discovery page to load more results.",
       "default": 999
+    },
+    "existingUrls": {
+      "title": "Existing Community URLs",
+      "type": "array",
+      "description": "List of already-scraped Skool URLs to skip (deduplication against your Google Sheet).",
+      "items": { "type": "string" },
+      "default": []
     }
   },
   "required": []
